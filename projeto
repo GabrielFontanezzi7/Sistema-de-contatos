@@ -1,0 +1,151 @@
+def contato(contatos):
+  nome = input("nome do contato:")
+  telefone = int(input("telefone do contato:"))
+  email = input("email do contato:")
+  favorito = input("É um contato favorito? (s/n):").lower() == "s"
+  
+  novo_contato = {
+    "nome": nome,
+    "telefone": telefone,
+    "email": email,
+    "favorito": favorito
+  }
+  
+  contatos.append(novo_contato)
+  print(f"Contato {nome} adcionado com sucesso!") 
+  return 
+
+def visualizar_contatos(contatos):
+  print("\nLista de contatos:")
+  for contato in contatos:
+      status = "Favorito" if contato["favorito"] else "Normal"
+      print(f"Nome: {contato['nome']}, Telefone: {contato['telefone']}, Email: {contato['email']}, Status: {status}")
+
+
+def editar_contato(contatos, nome_contato):
+    # Procura o contato pelo nome fornecido
+    for contato in contatos:
+        if contato["nome"] == nome_contato:
+            print("Contato encontrado!")
+            while True:
+                print("\nO que deseja alterar?")
+                print("1. Nome")
+                print("2. Email")
+                print("3. Telefone")
+                print("4. Sair")
+                opcao = input("Escolha uma opção: ")
+
+                if opcao == "1":
+                    n_nome = input("Novo nome: ")
+                    contato["nome"] = n_nome  
+                    print(f"Nome atualizado para {n_nome}")
+                elif opcao == "2":
+                    n_email = input("Novo email: ")
+                    contato["email"] = n_email 
+                    print(f"Email atualizado para {n_email}")
+                elif opcao == "3":
+                    n_telefone = input("Novo telefone: ")
+                    if n_telefone.isdigit(): 
+                        contato["telefone"] = int(n_telefone) 
+                        print(f"Telefone atualizado para {n_telefone}")
+                    else:
+                        print("Por favor, insira um número válido para o telefone.")
+                elif opcao == "4":
+                    print("Saindo da edição de contato.")
+                    break  
+                else:
+                    print("Opção inválida. Tente novamente.")
+            return  
+    print(f"Contato '{nome_contato}' não encontrado.")  
+
+def favoritar_desfavoritar(contatos,nome_contato):
+     for contato in contatos:
+        if contato["nome"] == nome_contato:
+            print("Contato encontrado!")
+            while True:
+                print("1. Favoritar")
+                print("2. Desfavoritar")
+                print("3. Sair")
+                opcao = input("Escolha uma opção: ")
+                if opcao =="1":
+                  contato["favorito"] = True
+                  print(f"Contato {nome_contato} favoritado com sucesso!")                  
+                elif opcao =="2":
+                    contato["favorito"] = False
+                    print(f"Contato {nome_contato} desfavoritado com sucesso!")
+                else:
+                  print("Saindo da opção de favoritar/desfavoritar")
+                  break
+            return
+        print(f"Contato {nome_contato} não encontrado.")
+
+def ver_lista_favoritos(contatos):
+    favoritos = [contato for contato in contatos if contato["favorito"]]  
+    if not favoritos:  
+        print("Nenhum contato favorito encontrado.")
+    else:
+        print("\nLista de contatos favoritos:")
+        for c in favoritos:
+            print(f"Nome: {c['nome']}, Telefone: {c['telefone']}, Email: {c['email']}")
+            return
+
+def deletar_contato(contatos, nome_contato):
+    for contato in contatos:
+        if contato["nome"].lower() == nome_contato.lower():  
+            print("Contato encontrado!")
+            while True:
+                print("1. Deletar contato")
+                print("2. Sair")
+                opcao = input("Escolha uma opção: ")  
+                if opcao == "1":
+                    contatos.remove(contato)
+                    print(f"Contato {nome_contato} removido com sucesso!")
+                    break  # 
+                elif opcao == "2":
+                    print("Saindo da opção de excluir contato.")
+                    break  
+                else:
+                    print("Opção inválida. Tente novamente.")  
+            return 
+    print(f"Contato '{nome_contato}' não encontrado.") 
+
+contatos = []
+while True:
+  print("\nBem vindo ao aplicativo de agenda")
+  print("1. Adcionar um novo contato")
+  print("2. Visualizar lista de contatos")
+  print("3. Editar contatos")
+  print("4. Favoritar/Desfavoritar contato")
+  print("5. Ver lista de contatos favoritos")
+  print("6. Deletar contato")
+  print("7. Sair.")
+
+  escolha = input("Escolha uma opção:")
+  if escolha == "1":
+    contato(contatos)
+  
+  elif escolha =="2":
+    visualizar_contatos(contatos)
+  
+  elif escolha =="3":
+    visualizar_contatos(contatos)
+    nome_contato = input("Digite o nome do contato que deseja editar:")
+    editar_contato(contatos,nome_contato)
+  
+  elif escolha =="4":
+    visualizar_contatos(contatos)
+    nome_contato = input("Digite o nome do contato que deseja favoritar/desfavoritar: ")
+    favoritar_desfavoritar(contatos,nome_contato)
+  
+  elif escolha =="5":
+    ver_lista_favoritos(contatos)
+    
+  elif escolha =="6":
+    print("\nLista contatos:")
+    visualizar_contatos(contatos)
+    nome_contato = input("Digite o nome do contato que deseja excluir:")
+    deletar_contato(contatos,nome_contato)
+    
+  elif escolha == "7":
+    print("Programa finalizado")
+    break
